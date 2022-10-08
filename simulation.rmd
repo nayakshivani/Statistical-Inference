@@ -1,0 +1,91 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+
+# Part 1: Simulation Exercise
+
+# Overview: This part is going to execute simulations and data analysises to illustrate application of the central limit theorem. R programming will be the major tool to realize the mentioned goal.
+
+
+
+
+## Question 1: Show the sample mean and compare it to the theoretical mean of the distribution.
+
+
+
+knitr::opts_chunk$set(echo = TRUE)
+lambda <- 0.2
+simData <- matrix(rexp(1000*40, lambda), nrow = 1000, ncol = 40)
+distMean <- apply(simData, 1, mean)
+hist(distMean, breaks = 50, main = "The distribution of 1000 averages of 40 random exponentials", xlab = "Value of means", ylab = "Frequency of means", col = "pink")
+abline(v = 1/lambda, lty = 1, lwd = 5, col = "red")
+legend("topright", lty = 1, lwd = 5, col = "red", legend = "theoretical mean")
+
+#The simulated sample means are normally distributed with a center very close to the theoretical mean.
+
+
+
+
+
+
+## Question 2: Show how variable the sample is (via variance) and compare it to the theoretical variance of the distribution.
+
+
+
+
+
+distVar <- apply(simData, 1, var)
+hist(distVar, breaks = 50, main = "The distribution of 1000 variance of 40 random exponentials", xlab = "Value of variances", ylab = "Frequency of variance", col = "light blue")
+abline(v = (1/lambda)^2, lty = 1, lwd = 5, col = "blue")
+legend("topright", lty = 1, lwd = 5, col = "blue", legend = "theoretical variance")
+
+
+
+
+#The simulated sample variances are almost normally distributed with a center near the theoretical variance.
+
+
+
+
+
+
+
+## Question 3: Show that the distribution is approximately normal.
+
+
+
+
+
+
+par(mfrow = c(3, 1))
+hist(simData, breaks = 50, main = "Distribution of exponentials with lambda equals to 0.2", xlab = "Exponentials", col = "yellow")
+hist(distMean, breaks = 50, main = "The distribution of 1000 averages of 40 random exponentials", xlab = "Value of means", ylab = "Frequency of means", col = "pink")
+simNorm <- rnorm(1000, mean = mean(distMean), sd = sd(distMean))
+hist(simNorm, breaks = 50, main = "A normal distribution with theoretical mean and sd of the exponentials", xlab = "Normal variables", col = "light green")
+
+
+
+
+### Results
+
+
+
+
+
+#### 1. The first histogram is the distribution of the exponentials with lambda equals to 0.2. The second histogram is the distribution of 1000 averages of 40 random exponentials
+
+
+#### 2. The third histogram is a real normal distribution with a mean and standard deviation equals to the second histogram’s.
+
+
+#### 3. Comparing the first with the second histogram, we can see the distrubution becames normal as the means were taken from each groups. 
+
+
+#### 4. It is a result of the central limit theorem. 
+
+
+
+#### 5. Comparing the second and the third histogram, we can see the distribution of the means is similar to a real normal distribution with the same mean and standard deviation.
